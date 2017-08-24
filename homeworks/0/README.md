@@ -53,6 +53,11 @@ print(image_list)
 2. 6 if non-recursive and recursive search are working
 3. 7 if 1 and 2, plus clear code, good comments
 
+## Submission
+
+1. Submissions are through Platea.
+2. Submission must include just the file CVHelper.py compressed as a zip file
+3. The zip file must be named homework_0_rut.zip
 
 
 
