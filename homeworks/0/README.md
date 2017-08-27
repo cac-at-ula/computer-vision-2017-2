@@ -1,7 +1,7 @@
 # Homework #1
 
 
-- Due: Wednesday 29, August, 2017
+- Due: Tuesday 29, August, 2017
 
 ## Description
 
