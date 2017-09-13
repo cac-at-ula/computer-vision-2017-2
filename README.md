@@ -6,3 +6,4 @@ Repositorio del curso Visión por Computadora, para Ing. Civil en Informática, 
 | Name        | Due        
 | ------------- |:-------------
 | [Homework 0](homeworks/0/) | 29/08/2017 23:59
+| [Homework 0.5](homeworks/0.5/) | 07/09/2017 23:59
