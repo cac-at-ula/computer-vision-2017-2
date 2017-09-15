@@ -34,7 +34,7 @@ def segment_image(self, im, color_space):
 
 An example
 
-```python
+```bash
 python3 train.py eval --path=dataset_folder --color-space=RGB 
 ```
 
