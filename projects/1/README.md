@@ -4,11 +4,11 @@
 
 ## Description
 
-The PBL #1 (Stage-2) consists in segment traffic signs using color clues
+The PBL #1 (Stage-1) consists in segment traffic signs using color clues
 
 ## Instructions
 
-- Improve Stage #1 results using mathematical morphology
+- Improve Stage #0 results using mathematical morphology
 - Improve previous parameters is allowed
 
 ## Tips
