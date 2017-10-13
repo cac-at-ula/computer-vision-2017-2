@@ -22,10 +22,11 @@ Grade = 0.5 Code * 0.5 Presentation
 
 #### Code
 
-1. 1 If nothing works
-2. 4 If mathematical morphology is used, and improve previous results 
-3. 6 If 2, and the code can run using multiple processors (optional)
-4. 7, Optionals + mandatory + good quality code
+1. 1, if nothing works
+2. 4, if mathematical morphology is used, and improve previous results 
+3. 5, if connected componets filtering techniques are used, and improve previous results (optional)
+4. 6 If 2 and 3, and the code can run using multiple processors (optional)
+5. 7, Optionals + mandatory + good quality code
 
 #### Presentation 
 
