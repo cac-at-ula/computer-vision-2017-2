@@ -7,10 +7,10 @@
 
  The homework consist in make a short presentation, with examples, and mathematical analysis of one the following topics
 
-- [Smoothing Images](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/gausian_median_blur_bilateral_filter/gausian_median_blur_bilateral_filter.html#smoothing)
-- [Image Pyramids](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/pyramids/pyramids.html#pyramids)
-- [Sobel Derivatives](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/imgtrans/sobel_derivatives/sobel_derivatives.html#sobel-derivatives)
-- [Canny Edge Detector](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/imgtrans/canny_detector/canny_detector.html#canny-detector)
+- [Smoothing Images](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/gausian_median_blur_bilateral_filter/gausian_median_blur_bilateral_filter.html#smoothing) - Cesar
+- [Image Pyramids](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/pyramids/pyramids.html#pyramids) - Felipe Olavarría 
+- [Sobel Derivatives](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/imgtrans/sobel_derivatives/sobel_derivatives.html#sobel-derivatives) - Felipe Maldonado
+- [Canny Edge Detector](https://docs.opencv.org/3.0-beta/doc/tutorials/imgproc/imgtrans/canny_detector/canny_detector.html#canny-detector) - Luis
 
 ## Tips
 
