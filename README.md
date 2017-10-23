@@ -8,6 +8,7 @@ Repositorio del curso Visión por Computadora, para Ing. Civil en Informática, 
 | [Homework 0](homeworks/0/) | 29/08/2017 23:55
 | [Homework 0.5](homeworks/0.5/) | 07/09/2017 23:55
 | [Homework 1](homeworks/1/) | 20/10/2017 13:00
+| [Homework 2](homeworks/2/) | 03/11/2017 13:00
 
 ## Projects
 | Name        | Due        
