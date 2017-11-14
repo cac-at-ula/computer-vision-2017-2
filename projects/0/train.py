@@ -5,6 +5,9 @@ from glob import glob
 from os.path import join
 from skimage import io
 from joblib import Parallel, delayed
+from collections import namedtuple 
+
+Rect  = namedtuple('Rectangle','xmin ymin xmax ymax')
 
 class Eval(object):
     """Eval traffic sign dataset """
@@ -21,6 +24,29 @@ class Eval(object):
         train_l = glob(join(path,'train','*.jpg'))
         dataset = [{'train':t, 'gt':t.replace('train','train_masks')} for t in train_l]
         return dataset
+    
+    @staticmethod
+    def rect_inter_area(a,b):
+        """Computes the intersecting area between two rectangles, a and b
+        :param a: First rectangle
+        :param b: Second rectangle
+        :returns: Intersecting area
+        """
+        dx = min(a.xmax, b.xmax) - max(a.xmin, b.xmin)
+        dy = min(a.ymax, b.ymax) - max(a.ymin, b.ymin)
+        if (dx>=0) and (dy>=0):
+            return dx*dy
+
+    @staticmethod
+    def rect_area(a):
+        """Computes the area of a rectangle
+        :param a: Rectangle
+        :returns: Area of the rectangle 
+        """
+        dx = a.xmax -a.xmin
+        dy = a.ymax -a.ymin
+        if (dx>=0) and (dy>=0):
+            return dx*dy
 
     @staticmethod
     def segment_image(im, color_space):
@@ -47,6 +73,23 @@ class Eval(object):
         fp_m = (gt==0) & (mask==1)
         fn_m = (gt==1) & (mask==0)
         return (tp_m.sum(), tn_m.sum(), fp_m.sum(), fn_m.sum()) 
+
+    @staticmethod
+    def eval_recognition(bb_sol, bb_mask):
+        """ Eval mask
+        :param bb_sol: List of Rect bounding boxes obtained after classification 
+        :param bb_mask: List of Rect bounding boxes from the GT mask
+        :returns: tp, tn, fp, fn in windows  
+        """
+        used_mask = []
+        T = 
+        for bb_s in bb_sol:
+            for i, bb_m in enumerate(bb_mask):
+                if i not in used_mask:
+                    if Eval.rect_inter_area(bb_s,bb_m) > 0.5 * Eval.rect_area(bb_m) and \
+                       Eval.rect_inter_area(bb_s,bb_m) < 1.5 * Eval.rect_area(bb_m):
+                                   
+
     
     @staticmethod
     def process_image(ip, color_space):
@@ -57,7 +100,10 @@ class Eval(object):
         im = io.imread(ip['train'])
         gt = io.imread(ip['gt'])
         mask = Eval.segment_image(im, color_space)
+        # Eval Segmentation
         (tp, tn, fp, fn) = Eval.eval_mask((gt==255), mask)
+        # Eval Traffic sign recognition
+        (tp_r, tn_r, fp_r, fn_r) = Eval.eval_recognition((gt==255), mask)
         return (tp,tn,fp,fn)
 
     def process_dataset(self, dataset, color_space, njobs):
