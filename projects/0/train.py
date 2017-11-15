@@ -4,6 +4,7 @@ from tqdm import tqdm
 from glob import glob
 from os.path import join
 from skimage import io
+from skimage.measure import label, regionprops
 from joblib import Parallel, delayed
 from collections import namedtuple 
 
@@ -82,29 +83,57 @@ class Eval(object):
         :returns: tp, tn, fp, fn in windows  
         """
         used_mask = []
-        T = 
+        tp = 0 
         for bb_s in bb_sol:
             for i, bb_m in enumerate(bb_mask):
                 if i not in used_mask:
                     if Eval.rect_inter_area(bb_s,bb_m) > 0.5 * Eval.rect_area(bb_m) and \
                        Eval.rect_inter_area(bb_s,bb_m) < 1.5 * Eval.rect_area(bb_m):
-                                   
+                        tp += 1
+                        used_mask.append(i)
+        fn = len(bb_sol) - len(used_mask)
+        fp = tp - len(bb_sol)
+        return (tp, fp, fn)
 
-    
+    @staticmethod
+    def classify(im, mask):
+        """ Classification of blobs
+        :im: Image with traffic signs
+        :mask: Mask after segmentation
+        :returns: List of bounding boxes
+
+        """
+        return []
+
     @staticmethod
     def process_image(ip, color_space):
         """ Process one image
         :param ip: name of train and gt image files
         :returns: (tp,tn,fp,fn) 
         """
+        # Segment image
+
         im = io.imread(ip['train'])
         gt = io.imread(ip['gt'])
         mask = Eval.segment_image(im, color_space)
+        
         # Eval Segmentation
-        (tp, tn, fp, fn) = Eval.eval_mask((gt==255), mask)
+        (tp, tn, fp, fn) = Eval.eval_mask((gt>200), mask)
+
+        # Classify blobs
+        bb_sol = Eval.classify(im, mask)
+
+        # Get bounding boxes from GT
+        bb_mask = []
+        label_im = label(gt>200)
+        props = regionprops(label_im)
+        for p in props:
+            props = Rect(xmin=p.bbox[0], ymin=p.bbox[1], xmax=p.bbox[2], ymax=p.bbox[3])
+            bb_mask.append(props)
+
         # Eval Traffic sign recognition
-        (tp_r, tn_r, fp_r, fn_r) = Eval.eval_recognition((gt==255), mask)
-        return (tp,tn,fp,fn)
+        (tp_r, fp_r, fn_r) = Eval.eval_recognition(bb_sol, bb_mask)
+        return (tp, tn, fp, fn, tp_r, fp_r, fn_r)
 
     def process_dataset(self, dataset, color_space, njobs):
         """ Process the full dataset 
@@ -117,6 +146,9 @@ class Eval(object):
         TN = 0
         FP = 0
         FN = 0
+        TP_r = 0
+        FP_r = 0
+        FN_r = 0
 
         res = Parallel(n_jobs=njobs, verbose=5)(delayed(Eval.process_image)(ip, color_space) for ip in dataset)
         for r in res: 
@@ -124,14 +156,35 @@ class Eval(object):
             TN += r[1]
             FP += r[2]
             FN += r[3]
+            TP_r += r[4]
+            FP_r += r[5]
+            FN_r += r[6]
+        
+        # Segmentation
         precision = TP/(TP+FP)
         accuracy = (TP + TN)/ (TP + TN + FP +FN)
         recall = TP/(TP+FN)
+        print('\nSegmentation\n')
         print('Precision = ', precision)
         print('Accuracy = ',accuracy) 
         print('Recall = ', recall)
         print('F-measure = ', 2 * (precision * recall)/(precision+recall))
-
+        
+        # Recognition  
+        if TP_r+FP_r == 0:
+            print('\nRecognition\n')
+            print('Precision = 0')
+            print('Accuracy = 0') 
+            print('Recall = 0')
+            
+        else:
+            precision = TP_r/ (TP_r + FP_r)
+            accuracy = TP_r /(TP_r + FN_r)
+            recall = TP_r / (TP_r + FN_r + FP_r)
+            print('\nRecognition\n')
+            print('Precision = ', precision)
+            print('Accuracy = ',accuracy) 
+            print('Recall = ', recall)
 
     def eval(self, path, njobs=8, color_space='RGB'):
         """ Segmentation evaluation on training dataset

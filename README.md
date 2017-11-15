@@ -15,4 +15,5 @@ Repositorio del curso Visión por Computadora, para Ing. Civil en Informática, 
 | ------------- |:-------------
 | [PBL #0](projects/0/) | 01/10/2017 23:55
 | [PBL #1](projects/1/) | 01/11/2017 23:55
+| [PBL #2](projects/2/) | 03/12/2017 23:55
 
