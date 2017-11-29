@@ -91,8 +91,8 @@ class Eval(object):
                        Eval.rect_area(bb_s) < 1.5 * Eval.rect_area(bb_m):
                         tp += 1
                         used_mask.append(i)
-        fn = len(bb_sol) - len(used_mask)
-        fp = tp - len(bb_sol)
+        fn = len(used_mask) - tp
+        fp = len(bb_sol) - tp
         return (tp, fp, fn)
 
     @staticmethod
