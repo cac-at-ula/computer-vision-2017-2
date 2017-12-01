@@ -48,6 +48,7 @@ class Eval(object):
         dy = a.ymax -a.ymin
         if (dx>=0) and (dy>=0):
             return dx*dy
+        return 0
 
     @staticmethod
     def segment_image(im, color_space):
