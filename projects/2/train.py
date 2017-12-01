@@ -37,6 +37,7 @@ class Eval(object):
         dy = min(a.ymax, b.ymax) - max(a.ymin, b.ymin)
         if (dx>=0) and (dy>=0):
             return dx*dy
+        return 0
 
     @staticmethod
     def rect_area(a):
